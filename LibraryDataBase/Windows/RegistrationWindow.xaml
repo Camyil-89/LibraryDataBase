@@ -4,9 +4,44 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryDataBase.Windows"
+        xmlns:vm="clr-namespace:LibraryDataBase.ViewModels"
         mc:Ignorable="d"
-        Title="RegistrationWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+		ResizeMode="CanMinimize"
+		WindowStartupLocation="CenterScreen"
+        Title="Регистрация" Height="240" Width="300">
+	<Window.DataContext>
+		<vm:RegistrationVM/>
+	</Window.DataContext>
+	<StackPanel HorizontalAlignment="Center" Width="200">
+		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Center">
+			<TextBlock Text="Фамилия" Margin="0 0 10 0" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding Surname, UpdateSourceTrigger=PropertyChanged}" Width="120" FontSize="14"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5 "
+					HorizontalAlignment="Right" VerticalAlignment="Center">
+			<TextBlock Text="Имя" Margin="0 0 10 0" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" Width="120" FontSize="14"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5 5 5 5"
+					HorizontalAlignment="Right" VerticalAlignment="Center">
+			<TextBlock Text="Отчество" Margin="0 0 10 0" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding Patronymic, UpdateSourceTrigger=PropertyChanged}" Width="120" FontSize="14"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5 5 5 5"
+					HorizontalAlignment="Right" VerticalAlignment="Center">
+			<TextBlock Text="Логин" Margin="0 0 10 0" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" Width="120" FontSize="14"/>
+		</StackPanel>
+		<StackPanel Orientation="Horizontal" Grid.Row="0" Margin="5 5 5 5"
+					HorizontalAlignment="Right" VerticalAlignment="Center">
+			<TextBlock Text="Пароль" Margin="0 0 10 0" VerticalAlignment="Center"/>
+			<TextBox Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Width="120" FontSize="14"/>
+		</StackPanel>
+		<UniformGrid Columns="2">
+			<Button Width="90" Content="Создать" FontSize="14" Height="30" Margin="5" Command="{Binding CreateAccountCommand}"/>
+			<Button Width="90" Content="Отмена" FontSize="14" Margin="5" Height="30" Command="{Binding ExitCommand}"/>
+		</UniformGrid>
+	</StackPanel>
 </Window>

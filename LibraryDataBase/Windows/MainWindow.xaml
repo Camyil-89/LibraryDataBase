@@ -4,10 +4,40 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:LibraryDataBase"
+        xmlns:vm="clr-namespace:LibraryDataBase.ViewModels"
         mc:Ignorable="d"
+		Title="{Binding StringFormat=Добро пожаловать {0},Path=SNP}"
 		WindowStartupLocation="CenterScreen"
-        Title="MainWindow" Height="300" Width="600">
+         Height="600" Width="800">
+	<Window.DataContext>
+		<vm:MainVM/>
+	</Window.DataContext>
     <Grid>
-
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="250"/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<ListView ItemsSource="{Binding TablesList}" SelectedItem="{Binding SelectedTable}"
+				  FontSize="16">
+			
+		</ListView>
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="30"/>
+				<RowDefinition Height="30"/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Menu Grid.Row="0" FontSize="14">
+				<MenuItem Header="Обновить"
+						  Command="{Binding UpdateCommand}"
+						  Margin="0 0 10 0"/>
+				
+				<MenuItem Header="Добавить" Command="{Binding AddCommand}"/>
+				<MenuItem Header="Изменить" Command="{Binding ChangeCommand}"/>
+				<MenuItem Header="Удалить" Command="{Binding DeleteCommand}"/>
+			</Menu>
+			<DataGrid Grid.Row="2" ItemsSource="{Binding Table, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" FontSize="14"
+					  EnableRowVirtualization="True" SelectionMode="Single" SelectedIndex="{Binding SelectedIndexRow}"/>
+		</Grid>
     </Grid>
 </Window>
