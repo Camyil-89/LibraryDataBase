@@ -46,11 +46,6 @@ namespace LibraryDataBase.ViewModels
 					MessageBoxHelper.WarningShow("Такого аккаунта нету!");
 					return;
 				}
-				//foreach (Window i in App.Current.Windows)
-				//{
-				//	if (i.Name == "Login")
-				//		i.Hide();
-				//}
 				App.Current.MainWindow.Hide();
 				MainWindow mainWindow = new MainWindow();
 				MainVM vm = new MainVM();
@@ -92,9 +87,16 @@ namespace LibraryDataBase.ViewModels
 
 			if (vm.CreateAccount)
 			{
-				App.Current.MainWindow.Close();
+				App.Current.MainWindow.Hide();
 				MainWindow mainWindow = new MainWindow();
+				MainVM vm1 = new MainVM();
+
+				vm1.SNP = $"{vm.Surname} {vm.Name} {vm.Patronymic}";
+
+				mainWindow.DataContext = vm1;
+
 				mainWindow.Show();
+				mainWindow.Closed += MainWindow_Closed;
 			}
 		}
 		#endregion
