@@ -126,7 +126,7 @@ namespace LibraryDataBase.ViewModels
 						column++;
 						if ((child as TextBox).Text == "")
 						{
-							sql += $"`{Table.Columns[column].ColumnName}` = 'NULL',";
+							sql += $"`{Table.Columns[column].ColumnName}` = '',";
 							continue;
 						}
 						count++;
@@ -213,7 +213,7 @@ namespace LibraryDataBase.ViewModels
 					{
 						if ((child as TextBox).Text == "")
 						{
-							sql += $",NULL";
+							sql += $",''";
 							continue;
 						}
 						count++;
