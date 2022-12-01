@@ -27,6 +27,12 @@ namespace LibraryDataBase.ViewModels
 		}
 
 
+		#region FindText: Description
+		/// <summary>Description</summary>
+		private string _FindText;
+		/// <summary>Description</summary>
+		public string FindText { get => _FindText; set => Set(ref _FindText, value); }
+		#endregion
 
 		#region SelectedIndexRow: Description
 		/// <summary>Description</summary>
@@ -76,6 +82,36 @@ namespace LibraryDataBase.ViewModels
 		#endregion
 
 		#region Commands
+
+
+		#region FindCommand: Description
+		private ICommand _FindCommand;
+		public ICommand FindCommand => _FindCommand ??= new LambdaCommand(OnFindCommandExecuted, CanFindCommandExecute);
+		private bool CanFindCommandExecute(object e) => true;
+		private void OnFindCommandExecuted(object e)
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(FindText))
+				{
+					UpdateTable();
+					return;
+				}
+				DataTable find = DataBaseProvider.SendQuery($"SELECT * FROM `{SelectedTable}`");
+				List<DataRow> removes = new List<DataRow>();
+				foreach (DataRow i in find.Rows)
+				{
+					if (!string.Join("", i.ItemArray).Contains(FindText))
+						removes.Add(i);
+				}
+				foreach (DataRow i in removes)
+					find.Rows.Remove(i);
+				Table = find;
+				Table.TableName = SelectedTable;
+			}
+			catch (Exception ex) { MessageBoxHelper.ErrorShow(ex.Message); }
+		}
+		#endregion
 
 		#region UpdateCommand: Description
 		private ICommand _UpdateCommand;
@@ -169,6 +205,7 @@ namespace LibraryDataBase.ViewModels
 		{
 			try
 			{
+				FindText = "";
 				Table = DataBaseProvider.SendQuery($"SELECT * FROM `{SelectedTable}`");
 				Table.TableName = SelectedTable;
 			}
@@ -180,7 +217,8 @@ namespace LibraryDataBase.ViewModels
 			try
 			{
 				foreach (var i in DataBaseProvider.GetTables())
-					TablesList.Add(i);
+					if (i != "users")
+						TablesList.Add(i);
 				SelectedTable = TablesList.First();
 			}
 			catch (Exception ex) { MessageBoxHelper.ErrorShow(ex.Message); }
